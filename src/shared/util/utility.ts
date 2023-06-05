@@ -1,6 +1,6 @@
-import { ThunkDispatch } from 'redux-thunk';
-import _ from 'lodash';
-import { IAction, IState } from 'shared/interface/state';
+import { ThunkDispatch } from "redux-thunk";
+import _ from "lodash";
+import { IAction, IState } from "shared/interface/state";
 
 /**
  * create action creator
@@ -8,8 +8,8 @@ import { IAction, IState } from 'shared/interface/state';
  * @param data - data
  */
 export const createAction = (ACTION: string, data: any = null): IAction => ({
-	type: ACTION,
-	payload: data
+  type: ACTION,
+  payload: data,
 });
 
 /**
@@ -17,8 +17,8 @@ export const createAction = (ACTION: string, data: any = null): IAction => ({
  * @param actions - actions to dispatch
  */
 export const createLoadingSelector = (actions: string[]) => (state: IState) =>
-	// returns true only when all actions is not loading
-	_(actions).some((action: string) => _.get(state, `loading.api.${action}`));
+  // returns true only when all actions is not loading
+  _(actions).some((action: string) => _.get(state, `loading.api.${action}`));
 
 /**
  * dispatch action after given time (to handle some events like close modal after success api call)
@@ -27,32 +27,70 @@ export const createLoadingSelector = (actions: string[]) => (state: IState) =>
  * @param time - time after which action is to be dispatched (default - 100ms)
  */
 export const dispatchActionAfterTime = (
-	dispatch: ThunkDispatch<unknown, unknown, IAction>,
-	action: string,
-	time = 100
+  dispatch: ThunkDispatch<unknown, unknown, IAction>,
+  action: string,
+  time = 100
 ) => {
-	setTimeout(() => {
-		dispatch(createAction(action));
-	}, time);
+  setTimeout(() => {
+    dispatch(createAction(action));
+  }, time);
 };
 
 export const camelCaseToFirstUpperLetter = (text: string) => {
-	const result = text.replace(/([A-Z])/g, ' $1');
-	const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
-	return finalResult;
+  const result = text.replace(/([A-Z])/g, " $1");
+  const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
+  return finalResult;
 };
 
 export const debounce = (func: any, wait = 400) => {
-	let h: NodeJS.Timeout;
-	return (...args: any) => {
-		clearTimeout(h);
-		h = setTimeout(() => func(...args), wait);
-	};
+  let h: NodeJS.Timeout;
+  return (...args: any) => {
+    clearTimeout(h);
+    h = setTimeout(() => func(...args), wait);
+  };
 };
 export const generateColor = () => {
-	const x = Math.floor(Math.random() * 256);
-	const y = Math.floor(Math.random() * 256);
-	const z = Math.floor(Math.random() * 256);
-	const RGBColor = `${x} ,${y}, ${z}`;
-	return RGBColor;
+  const x = Math.floor(Math.random() * 256);
+  const y = Math.floor(Math.random() * 256);
+  const z = Math.floor(Math.random() * 256);
+  const RGBColor = `${x} ,${y}, ${z}`;
+  return RGBColor;
+};
+
+export const getTime = (date: any) => {
+  const datetime = new Date(date);
+  const timeString = datetime.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return timeString;
+};
+
+export const getDate = (date: any) => {
+  const datetime = new Date(date);
+
+  const dateString = datetime.toLocaleDateString([], {
+    day: "numeric",
+    month: "long",
+  });
+  return dateString;
+};
+
+export const getDay = (date: any) => {
+  const datetime = new Date(date);
+
+  const dayName = datetime.toLocaleDateString("en-US", { weekday: "long" });
+
+  return dayName;
+};
+
+export const formattedTime = (date: any) => {
+  const datetime = new Date(date);
+
+  const dayName = datetime.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    hour12: true,
+  });
+
+  return dayName;
 };
