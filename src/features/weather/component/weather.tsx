@@ -113,7 +113,6 @@ const Weather: FC = () => {
                       <h3 className="text--white font--semi-bold">
                         {currentWeatherData?.location.name}
                       </h3>
-                      {/* {WeatherIcon(currentWeatherData?.current.condition.code)} */}
                       <img
                         src={currentWeatherData?.current.condition.icon}
                         alt="weather-img"
@@ -131,7 +130,7 @@ const Weather: FC = () => {
                     type="text"
                     className="search-input bg--white font-size--browser-default"
                     value={locationData}
-                    placeholder="Search.."
+                    placeholder="Search location..."
                     onKeyDown={(e) => handleKeyDown(e)}
                     onChange={(e) => handleChange(e.target.value)}
                   />
