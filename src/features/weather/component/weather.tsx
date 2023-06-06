@@ -3,13 +3,11 @@ import { FC, useEffect, useState } from "react";
 import axios from "axios";
 
 import { formattedTime, getDate, getDay, getTime } from "shared/util/utility";
+import Spinner from "shared/components/spinner/spinner";
 
 import LineChart from "./lineChart";
 
 import "../style/weather.scss";
-import Spinner from "shared/components/spinner/spinner";
-// import Spinner from "shared/components/spinner/spinner";
-// import isEmpty from "lodash/isEmpty";
 
 const Weather: FC = () => {
   let apiKey = "4aad69c6cb244e75ac944054230506";
@@ -49,13 +47,13 @@ const Weather: FC = () => {
     const hourlyForecasts = currentWeatherData?.forecast.forecastday[0].hour;
     if (hourlyForecasts) {
       const filteredForecast = hourlyForecasts.filter(
-        (hour: any, index: any) => index % 4 === 0
+        (hour: any, index: number) => index % 4 === 0
       );
       setFilteredForecasts(filteredForecast);
     }
   }, [currentWeatherData]);
 
-  const getWeatherLabel = (code: any) => {
+  const getWeatherLabel = (code: number) => {
     let label = "Unknown";
 
     switch (code) {
@@ -68,7 +66,6 @@ const Weather: FC = () => {
       case 1003:
         label = "Partly cloudy";
         break;
-      // Add more condition codes and labels as needed
       default:
         break;
     }
@@ -87,9 +84,13 @@ const Weather: FC = () => {
   };
 
   useEffect(() => {
+    console.log(currentWeatherData);
+  }, [currentWeatherData]);
+
+  useEffect(() => {
     fetchCurrentWeatherData();
     fetchForecastWeatherData();
-  }, [currentWeatherData]);
+  }, []);
 
   if (!currentWeatherData && !forecastWeatherData) {
     return (
@@ -112,6 +113,7 @@ const Weather: FC = () => {
                       <h3 className="text--white font--semi-bold">
                         {currentWeatherData?.location.name}
                       </h3>
+                      {/* {WeatherIcon(currentWeatherData?.current.condition.code)} */}
                       <img
                         src={currentWeatherData?.current.condition.icon}
                         alt="weather-img"
