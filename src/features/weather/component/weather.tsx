@@ -10,7 +10,7 @@ import LineChart from "./lineChart";
 import "../style/weather.scss";
 
 const Weather: FC = () => {
-  let apiKey = "4aad69c6cb244e75ac944054230506";
+  let apiKey = process.env.REACT_APP_API_KEY;
 
   const [currentWeatherData, setCurrentWeatherData] = useState<any>(null);
   const [forecastWeatherData, setForecastWeatherData] = useState<any>(null);
@@ -174,13 +174,13 @@ const Weather: FC = () => {
               <div className="flex flex--column">
                 {forecastWeatherData?.forecast?.forecastday.map(
                   (data: any, index: number) => {
-                    const { date, temp_c, code } = data;
+                    const { date, code } = data;
                     return (
                       <div
                         className="day-forecast__weather-box flex flex--row align-items--center justify-content--around"
                         key={index}
                       >
-                        <p className="text--center font--medium">
+                        <p className="text--center font--medium max-width--125px">
                           {getDay(date)}
                         </p>
                         <div className="flex flex--column align-items--center">
