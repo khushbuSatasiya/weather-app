@@ -20,7 +20,7 @@ const Weather: FC = () => {
   const fetchCurrentWeatherData = async (location = "Ahmedabad") => {
     try {
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}`
+        `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}`
       );
       setCurrentWeatherData(response.data);
     } catch (error: any) {
