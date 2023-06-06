@@ -5,7 +5,6 @@ import {
   PointElement,
   LinearScale,
   Title,
-  ChartData,
   CategoryScale,
 } from "chart.js";
 import React, { useEffect, useRef } from "react";

@@ -57,9 +57,13 @@ export const generateColor = () => {
   return RGBColor;
 };
 
+export const newDate = (date: any) => {
+  const dateTime = new Date(date);
+  return dateTime;
+};
+
 export const getTime = (date: any) => {
-  const datetime = new Date(date);
-  const timeString = datetime.toLocaleTimeString([], {
+  const timeString = newDate(date).toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -67,9 +71,7 @@ export const getTime = (date: any) => {
 };
 
 export const getDate = (date: any) => {
-  const datetime = new Date(date);
-
-  const dateString = datetime.toLocaleDateString([], {
+  const dateString = newDate(date).toLocaleDateString([], {
     day: "numeric",
     month: "long",
   });
@@ -77,17 +79,15 @@ export const getDate = (date: any) => {
 };
 
 export const getDay = (date: any) => {
-  const datetime = new Date(date);
-
-  const dayName = datetime.toLocaleDateString("en-US", { weekday: "long" });
+  const dayName = newDate(date).toLocaleDateString("en-US", {
+    weekday: "long",
+  });
 
   return dayName;
 };
 
 export const formattedTime = (date: any) => {
-  const datetime = new Date(date);
-
-  const dayName = datetime.toLocaleTimeString("en-US", {
+  const dayName = newDate(date).toLocaleTimeString("en-US", {
     hour: "numeric",
     hour12: true,
   });

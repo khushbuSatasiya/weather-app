@@ -7,6 +7,9 @@ import { formattedTime, getDate, getDay, getTime } from "shared/util/utility";
 import LineChart from "./lineChart";
 
 import "../style/weather.scss";
+import Spinner from "shared/components/spinner/spinner";
+// import Spinner from "shared/components/spinner/spinner";
+// import isEmpty from "lodash/isEmpty";
 
 const Weather: FC = () => {
   let apiKey = "4aad69c6cb244e75ac944054230506";
@@ -14,8 +17,6 @@ const Weather: FC = () => {
   const [currentWeatherData, setCurrentWeatherData] = useState<any>(null);
   const [forecastWeatherData, setForecastWeatherData] = useState<any>(null);
   const [filteredForecasts, setFilteredForecasts] = useState<any>();
-  const [location, setLocation] = useState<string>("Ahmedabad");
-  const [day, setDay] = useState<number>(7);
   const [locationData, setLocationData] = useState<string>("");
 
   const fetchCurrentWeatherData = async (location = "Ahmedabad") => {
@@ -32,7 +33,7 @@ const Weather: FC = () => {
   const fetchForecastWeatherData = async (location = "Ahmedabad") => {
     try {
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=${day}`
+        `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=7`
       );
       setForecastWeatherData(response.data);
     } catch (error: any) {
@@ -77,10 +78,8 @@ const Weather: FC = () => {
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
-      console.log("in>>>>>>");
       fetchForecastWeatherData(e.target.value);
       fetchCurrentWeatherData(e.target.value);
-      setLocation(locationData);
     }
   };
   const handleChange = (value: string) => {
@@ -90,21 +89,20 @@ const Weather: FC = () => {
   useEffect(() => {
     fetchCurrentWeatherData();
     fetchForecastWeatherData();
-  }, []);
+  }, [currentWeatherData]);
 
-  const handleSuggestion = () => {
-    if (locationData.length > 0) {
-      matches = users.filter((location: any) => {
-        const regex = new RegExp(`${locationData}`, "gi");
-        return user.email.match(regex);
-      });
-    }
-  };
+  if (!currentWeatherData && !forecastWeatherData) {
+    return (
+      <div className="display-flex-center height--full-viewport">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="weather width--full">
-        <div className="box flex flex--column">
+        <div className="box flex flex--column width--full height--full m--0-auto border-radius--md z-index--2">
           <div className="flex flex--row">
             <div className="current">
               <div className="today__weather">
@@ -127,22 +125,20 @@ const Weather: FC = () => {
                       {currentWeatherData?.current.temp_c}°c
                     </h1>
                   </div>
-                  <div className="searchBox">
-                    <input
-                      type="text"
-                      className="searchInput"
-                      value={locationData}
-                      placeholder="Search.."
-                      onKeyDown={(e) => handleKeyDown(e)}
-                      onChange={(e) => handleChange(e.target.value)}
-                    />
-                    <div className="submitsearch">
-                      <span>Search</span>
-                    </div>
+                  <input
+                    type="text"
+                    className="search-input bg--white font-size--browser-default"
+                    value={locationData}
+                    placeholder="Search.."
+                    onKeyDown={(e) => handleKeyDown(e)}
+                    onChange={(e) => handleChange(e.target.value)}
+                  />
+                  <div className="submit__search border-radius--xxl cursor--pointer pl--10 pr--5">
+                    <span>Search</span>
                   </div>
                 </div>
               </div>
-              <div className="today-forecast__weather">
+              <div className="today-forecast__weather border-radius--md">
                 <h5 className="text--white">Today's Forecast</h5>
                 <div className="flex justify-content--around">
                   {filteredForecasts?.map((data: any, index: number) => {
@@ -171,7 +167,7 @@ const Weather: FC = () => {
                 )}
               </div>
             </div>
-            <div className="forecast">
+            <div className="forecast border-radius--md">
               <h5 className="text--center">7-day Forecast</h5>
               <div className="flex flex--column">
                 {forecastWeatherData?.forecast?.forecastday.map(

@@ -1,29 +1,43 @@
 @import "../../../assets/styles/app.scss";
 
 .weather {
-  padding: 40px 0;
+  @include padding(40px 0);
 
   .box {
-    width: 100%;
-    height: 100%;
     max-width: 1400px;
-    margin: 0 auto;
-    border-radius: 8px;
-    padding: 10px;
+    @include padding(10px);
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2;
 
     .current {
       width: 70%;
       .today__weather {
         @include padding(20px 40px);
+
+        .submit__search {
+          border: 1px solid rgb(138, 134, 134);
+          @include padding(5px);
+          display: none;
+          box-shadow: 0 0 1px $black;
+        }
+
+        .search-input {
+          border: 1px solid $black;
+          border-radius: 30px;
+          background-image: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-24.png");
+          background-position: 10px 7px;
+          background-repeat: no-repeat;
+          @include padding(8px 20px 8px 40px);
+          -webkit-transition: width 0.8s ease-in-out;
+          transition: width 0.8s ease-in-out;
+          outline: none;
+          opacity: 0.9;
+        }
       }
       .today-forecast__weather {
         height: 200px;
         @include margin(10px);
         @include padding(15px);
         background-color: rgb(11 10 10 / 50%);
-        border-radius: 8px;
         .today-forecast__weather-box {
           @include padding(10px);
           @include margin(15px 0);
@@ -40,7 +54,6 @@
       @include margin(10px);
       @include padding(15px);
       background-color: rgb(11 10 10 / 50%);
-      border-radius: 8px;
       .day-forecast__weather-box {
         .weather-img {
           width: 60px;
@@ -48,42 +61,5 @@
         }
       }
     }
-    .btn-wrapper {
-      @include margin(30px 0);
-      button {
-        @include padding(24px);
-        border-radius: 8px;
-        background-color: rgb(170 186 222 / 50%);
-      }
-    }
   }
-}
-
-.submitsearch {
-  border: 1px solid rgb(138, 134, 134);
-  margin-left: -82px;
-  padding: 5px;
-  border-radius: 19px;
-  cursor: pointer;
-  padding-left: 10px;
-  padding-right: 8px;
-  padding-top: 4px;
-  display: none;
-  box-shadow: 0 0 1px black;
-  margin-right: 110px;
-}
-
-.searchInput {
-  border: 1px solid #000;
-  border-radius: 30px;
-  font-size: 16px;
-  background-color: $white;
-  background-image: url("https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/search-24.png");
-  background-position: 10px 7px;
-  background-repeat: no-repeat;
-  padding: 8px 20px 8px 40px;
-  -webkit-transition: width 0.8s ease-in-out;
-  transition: width 0.8s ease-in-out;
-  outline: none;
-  opacity: 0.9;
 }
