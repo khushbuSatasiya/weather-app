@@ -31,7 +31,7 @@ const Weather: FC = () => {
   const fetchForecastWeatherData = async (location = "Ahmedabad") => {
     try {
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=7`
+        `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location}&days=7`
       );
       setForecastWeatherData(response.data);
     } catch (error: any) {
